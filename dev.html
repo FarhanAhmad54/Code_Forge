@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CodeForge — Developer Dashboard</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="/public/favicon.svg">
+    <link rel="stylesheet" href="/src/dev.css" />
+</head>
+
+<body>
+
+    <!-- Login Screen -->
+    <div id="login-screen" class="login-screen">
+        <div class="login-card">
+            <div class="login-icon">🔐</div>
+            <h1>Developer Access</h1>
+            <p>Enter your developer password to continue.</p>
+            <form id="login-form">
+                <input type="password" id="login-password" placeholder="Password" autocomplete="off" required />
+                <button type="submit" class="login-btn" id="login-btn">Authenticate</button>
+            </form>
+            <div id="login-error" class="login-error"></div>
+        </div>
+    </div>
+
+    <!-- Dashboard (hidden until login) -->
+    <div id="dashboard" class="dashboard" style="display:none;">
+        <nav class="dash-nav">
+            <div class="dash-nav-left">
+                <span class="dash-logo">⚡ CodeForge Dev</span>
+            </div>
+            <div class="dash-nav-right">
+                <span class="dash-live-dot"></span>
+                <span id="last-updated">—</span>
+                <button id="refresh-btn" class="dash-btn">↻ Refresh</button>
+                <button id="logout-btn" class="dash-btn dash-btn-danger">Logout</button>
+            </div>
+        </nav>
+
+        <!-- Analytics Cards -->
+        <section class="dash-section">
+            <h2 class="dash-section-title">📊 Analytics</h2>
+            <div class="stats-cards" id="stats-cards">
+                <div class="stat-card">
+                    <div class="stat-val" id="s-total-msg">—</div>
+                    <div class="stat-lbl">Total Messages</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-val" id="s-today-msg">—</div>
+                    <div class="stat-lbl">Messages Today</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-val" id="s-week-msg">—</div>
+                    <div class="stat-lbl">This Week</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-val" id="s-total-views">—</div>
+                    <div class="stat-lbl">Total Page Views</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-val" id="s-today-views">—</div>
+                    <div class="stat-lbl">Views Today</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-val" id="s-unique">—</div>
+                    <div class="stat-lbl">Unique Visitors</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Messages -->
+        <section class="dash-section">
+            <h2 class="dash-section-title">✉️ User Messages</h2>
+            <div id="messages-list" class="messages-list">
+                <div class="msg-empty">Loading messages...</div>
+            </div>
+            <div class="pagination" id="pagination"></div>
+        </section>
+    </div>
+
+    <script type="module" src="/src/dev.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CodeForge — Online Code Editor | 20+ Languages</title>
+  <meta name="description"
+    content="Write, run, and share code in 20+ programming languages instantly in your browser. Supports JavaScript, Python, C++, Java, Go, Rust, and more." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="/public/favicon.svg">
+  <link rel="stylesheet" href="/src/home.css" />
+</head>
+
+<body>
+  <!-- Animated Background -->
+  <canvas id="particle-canvas"></canvas>
+  <div class="gradient-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="home-nav">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">
+        <img src="/public/favicon.svg" alt="CodeForge" class="nav-logo-img" width="24" height="24" />
+        <span class="nav-logo-text">CodeForge</span>
+      </a>
+      <div class="nav-links">
+        <a href="#features" class="nav-link">Features</a>
+        <a href="#languages" class="nav-link">Languages</a>
+        <a href="#how-it-works" class="nav-link">How It Works</a>
+        <a href="#challenges" class="nav-challenges-btn" title="Coding Challenges">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon
+              points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+            </polygon>
+          </svg>
+          Challenges
+        </a>
+        <a href="editor.html#history" class="nav-history-btn" title="My Files & History">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+          History
+        </a>
+        <a href="#contact" class="nav-contact-btn" title="Contact Us">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+          </svg>
+          Contact
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-badge" id="hero-badge">
+        <span class="badge-dot"></span>
+        20+ Languages Supported
+      </div>
+      <h1 class="hero-title" id="hero-title">
+        Code. <span class="gradient-text">Execute.</span> Share.
+      </h1>
+      <p class="hero-subtitle" id="hero-subtitle">
+        A powerful online code editor that lets you write, run, and share code in
+        <strong>20+ programming languages</strong> — directly in your browser.
+        No setup. No installation. Just code.
+      </p>
+      <div class="hero-actions" id="hero-actions">
+        <a href="editor.html" class="btn btn-primary">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+          </svg>
+          Start Coding Now
+        </a>
+        <a href="#features" class="btn btn-secondary">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="16" x2="12" y2="12"></line>
+            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+          </svg>
+          Learn More
+        </a>
+      </div>
+
+      <!-- Animated Code Snippet -->
+      <div class="hero-code-window" id="hero-code-window">
+        <div class="code-window-header">
+          <div class="window-dots">
+            <span class="dot dot-red"></span>
+            <span class="dot dot-yellow"></span>
+            <span class="dot dot-green"></span>
+          </div>
+          <span class="window-title">main.py</span>
+          <span class="window-badge">Python</span>
+        </div>
+        <div class="code-window-body">
+          <pre><code id="typing-code"></code></pre>
+          <span class="cursor-blink" id="cursor-blink">|</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Bar -->
+  <section class="stats-bar">
+    <div class="stats-inner">
+      <div class="stat" id="stat-1">
+        <div class="stat-number" data-target="20">0</div>
+        <div class="stat-label">Languages</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat" id="stat-2">
+        <div class="stat-number" data-target="100">0</div>
+        <div class="stat-label">% Free</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat" id="stat-3">
+        <div class="stat-number" data-target="0">0</div>
+        <div class="stat-label">Setup Required</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat" id="stat-4">
+        <div class="stat-icon">∞</div>
+        <div class="stat-label">Runs Per Day</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features-section" id="features">
+    <div class="section-container">
+      <div class="section-header-text">
+        <span class="section-tag">Features</span>
+        <h2 class="section-title">Everything You Need to Code</h2>
+        <p class="section-desc">A professional-grade code editor packed with features to supercharge your development
+          workflow.</p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card" data-delay="0">
+          <div class="feature-icon-wrap">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <polyline points="16 18 22 12 16 6"></polyline>
+              <polyline points="8 6 2 12 8 18"></polyline>
+            </svg>
+          </div>
+          <h3>Monaco Editor</h3>
+          <p>Powered by the same engine as VS Code. Enjoy IntelliSense, syntax highlighting, bracket matching, minimap,
+            and 50+ keyboard shortcuts.</p>
+        </div>
+
+        <div class="feature-card" data-delay="100">
+          <div class="feature-icon-wrap">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+          </div>
+          <h3>Instant Execution</h3>
+          <p>Run JavaScript and HTML/CSS directly in the browser. All other languages execute securely via the Judge0
+            cloud API — no installation needed.</p>
+        </div>
+
+        <div class="feature-card" data-delay="200">
+          <div class="feature-icon-wrap">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+          </div>
+          <h3>Live Collaboration</h3>
+          <p>Code together in real-time with peer-to-peer WebRTC connections. See live cursors, share rooms instantly —
+            no server required.</p>
+        </div>
+
+        <div class="feature-card" data-delay="300">
+          <div class="feature-icon-wrap">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+          </div>
+          <h3>Dark & Light Themes</h3>
+          <p>Switch between beautifully crafted dark and light themes with a single click. Your preference is saved
+            automatically.</p>
+        </div>
+
+        <div class="feature-card" data-delay="400">
+          <div class="feature-icon-wrap">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="18" cy="5" r="3"></circle>
+              <circle cx="6" cy="12" r="3"></circle>
+              <circle cx="18" cy="19" r="3"></circle>
+              <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+              <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+            </svg>
+          </div>
+          <h3>Share & Export</h3>
+          <p>Download your code, copy to clipboard, or generate a shareable link that encodes your code right into the
+            URL. Share with anyone.</p>
+        </div>
+
+        <div class="feature-card" data-delay="500">
+          <div class="feature-icon-wrap">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+              <line x1="8" y1="21" x2="16" y2="21"></line>
+              <line x1="12" y1="17" x2="12" y2="21"></line>
+            </svg>
+          </div>
+          <h3>Resizable Layout</h3>
+          <p>Drag to resize the editor and output panels to your liking. Fully responsive design works on desktops,
+            tablets, and phones.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Languages Section -->
+  <section class="languages-section" id="languages">
+    <div class="section-container">
+      <div class="section-header-text">
+        <span class="section-tag">Languages</span>
+        <h2 class="section-title">20+ Languages, One Editor</h2>
+        <p class="section-desc">From scripting to systems programming — we've got you covered with all major languages.
+        </p>
+      </div>
+
+      <div class="languages-showcase">
+        <!-- Row 1: Scrolling left -->
+        <div class="lang-scroll-row" id="lang-row-1">
+          <div class="lang-scroll-track scroll-left">
+            <div class="lang-card">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg"
+                alt="JavaScript" />
+              <span>JavaScript</span>
+            </div>
+            <div class="lang-card">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg"
+                alt="Python" />
+              <span>Python</span>
+            </div>
+            <div class="lang-card">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/cplusplus/cplusplus-original.svg"
+                alt="C++" />
+              <span>C++</span>
+            </div>
+            <div class="lang-card">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg" alt="Java" />
+              <span>Java</span>
+            </div>
+            <div class="lang-card">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/rust/rust-original.svg" alt="Rust" />
+              <span>Rust</span>
+            </div>
+            <div class="lang-card">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/go/go-original-wordmark.svg"
+                alt="Go" />
+              <span>Go</span>
+            </div>
+            <div class="lang-card">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg"
+                alt="TypeScript" />
+              <span>TypeScript</span>
+            </div>
+            <div class="lang-card">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/csharp/csharp-original.svg"
+                alt="C#" />
+              <span>C#</span>
+            </div>
+            <div class="lang-card">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/ruby/ruby-original.svg" alt="Ruby" />
+              <span>Ruby</span>
+            </div>
+            <div class="lang-card">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/swift/swift-original.svg"
+                alt="Swift" />
+              <span>Swift</span>
+            </div>
+            <!-- Duplicated for seamless loop -->
+            <div class="lang-card">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg"
+                alt="JavaScript" />
+              <span>JavaScript</span>
+            </div>
+            <div class="lang-card">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg"
+                alt="Python" />
+              <span>Python</span>
+            </div>
+            <div class="lang-card">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/cplusplus/cplusplus-original.svg"
+                alt="C++" />
+              <span>C++</span>
+            </div>
+            <div class="lang-card">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg" alt="Java" />
+              <span>Java</span>
+            </div>
+            <div class="lang-card">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/rust/rust-original.svg" alt="Rust" />
+              <span>Rust</span>
+            </div>
+            <div class="lang-card">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/go/go-original-wordmark.svg"
+                alt="Go" />
+              <span>Go</span>
+            </div>
+            <div class="lang-card">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg"
+                alt="TypeScript" />
+              <span>TypeScript</span>
+            </div>
+            <div class="lang-card">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/csharp/csharp-original.svg"
+                alt="C#" />
+              <span>C#</span>
+            </div>
+            <div class="lang-card">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/ruby/ruby-original.svg" alt="Ruby" />
+              <span>Ruby</span>
+            </div>
+            <div class="lang-card">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/swift/swift-original.svg"
+                alt="Swift" />
+              <span>Swift</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Row 2: Scrolling right -->
+        <div class="lang-scroll-row" id="lang-row-2">
+          <div class="lang-scroll-track scroll-right">
+            <div class="lang-card">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/php/php-original.svg" alt="PHP" />
+              <span>PHP</span>
+            </div>
+            <div class="lang-card">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/kotlin/kotlin-original.svg"
+                alt="Kotlin" />
+              <span>Kotlin</span>
+            </div>
+            <div class="lang-card">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/dart/dart-original.svg" alt="Dart" />
+              <span>Dart</span>
+            </div>
+            <div class="lang-card">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/lua/lua-original.svg" alt="Lua" />
+              <span>Lua</span>
+            </div>
+            <div class="lang-card">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/perl/perl-original.svg" alt="Perl" />
+              <span>Perl</span>
+            </div>
+            <div class="lang-card">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/r/r-original.svg" alt="R" />
+              <span>R</span>
+            </div>
+            <div class="lang-card">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/bash/bash-original.svg" alt="Bash" />
+              <span>Bash</span>
+            </div>
+            <div class="lang-card">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/c/c-original.svg" alt="C" />
+              <span>C</span>
+            </div>
+            <div class="lang-card">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg"
+                alt="HTML" />
+              <span>HTML/CSS</span>
+            </div>
+            <div class="lang-card">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/sqlite/sqlite-original.svg"
+                alt="SQL" />
+              <span>SQL</span>
+            </div>
+            <!-- Duplicated for seamless loop -->
+            <div class="lang-card">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/php/php-original.svg" alt="PHP" />
+              <span>PHP</span>
+            </div>
+            <div class="lang-card">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/kotlin/kotlin-original.svg"
+                alt="Kotlin" />
+              <span>Kotlin</span>
+            </div>
+            <div class="lang-card">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/dart/dart-original.svg" alt="Dart" />
+              <span>Dart</span>
+            </div>
+            <div class="lang-card">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/lua/lua-original.svg" alt="Lua" />
+              <span>Lua</span>
+            </div>
+            <div class="lang-card">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/perl/perl-original.svg" alt="Perl" />
+              <span>Perl</span>
+            </div>
+            <div class="lang-card">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/r/r-original.svg" alt="R" />
+              <span>R</span>
+            </div>
+            <div class="lang-card">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/bash/bash-original.svg" alt="Bash" />
+              <span>Bash</span>
+            </div>
+            <div class="lang-card">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/c/c-original.svg" alt="C" />
+              <span>C</span>
+            </div>
+            <div class="lang-card">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg"
+                alt="HTML" />
+              <span>HTML/CSS</span>
+            </div>
+            <div class="lang-card">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/sqlite/sqlite-original.svg"
+                alt="SQL" />
+              <span>SQL</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Language category cards -->
+      <div class="lang-categories">
+        <div class="lang-cat-card">
+          <div class="cat-icon">🌐</div>
+          <h4>Web Languages</h4>
+          <p>JavaScript, TypeScript, HTML/CSS, PHP</p>
+          <span class="cat-badge browser">Runs in Browser</span>
+        </div>
+        <div class="lang-cat-card">
+          <div class="cat-icon">⚙️</div>
+          <h4>Systems Languages</h4>
+          <p>C, C++, Rust, Go</p>
+          <span class="cat-badge compiled">Compiled</span>
+        </div>
+        <div class="lang-cat-card">
+          <div class="cat-icon">📱</div>
+          <h4>App Development</h4>
+          <p>Java, Kotlin, Swift, Dart, C#</p>
+          <span class="cat-badge mobile">Mobile & Desktop</span>
+        </div>
+        <div class="lang-cat-card">
+          <div class="cat-icon">🔬</div>
+          <h4>Scripting & Data</h4>
+          <p>Python, Ruby, R, Lua, Perl, Bash, SQL</p>
+          <span class="cat-badge scripting">Interpreted</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section class="how-section" id="how-it-works">
+    <div class="section-container">
+      <div class="section-header-text">
+        <span class="section-tag">How It Works</span>
+        <h2 class="section-title">Three Steps to Run Code</h2>
+        <p class="section-desc">Getting started is as simple as picking a language and hitting Run.</p>
+      </div>
+
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-number">01</div>
+          <div class="step-visual">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+              <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+              <path d="M2 17l10 5 10-5"></path>
+              <path d="M2 12l10 5 10-5"></path>
+            </svg>
+          </div>
+          <h3>Pick a Language</h3>
+          <p>Choose from 20+ programming languages. The editor instantly loads with syntax highlighting and a starter
+            template.</p>
+        </div>
+
+        <div class="step-connector">
+          <svg width="40" height="24" viewBox="0 0 40 24">
+            <path d="M0 12h36M30 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.3" />
+          </svg>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number">02</div>
+          <div class="step-visual">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+              <polyline points="16 18 22 12 16 6"></polyline>
+              <polyline points="8 6 2 12 8 18"></polyline>
+            </svg>
+          </div>
+          <h3>Write Your Code</h3>
+          <p>Use the Monaco editor with IntelliSense autocompletion, bracket matching, and all the features you love
+            from VS Code.</p>
+        </div>
+
+        <div class="step-connector">
+          <svg width="40" height="24" viewBox="0 0 40 24">
+            <path d="M0 12h36M30 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.3" />
+          </svg>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number">03</div>
+          <div class="step-visual">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+          </div>
+          <h3>Hit Run</h3>
+          <p>Press <kbd>Ctrl + Enter</kbd> or click Run. See output instantly in the console panel. Share your code with
+            a link.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Challenges Section -->
+  <section class="challenges-section" id="challenges">
+    <div class="section-container">
+      <div class="section-header-text">
+        <span class="section-tag">Challenges</span>
+        <h2 class="section-title">100 Coding Challenges</h2>
+        <p class="section-desc">Sharpen your skills with challenges across 4 difficulty levels. From basics to extreme
+          algorithmic puzzles.</p>
+      </div>
+
+      <!-- Difficulty Tabs -->
+      <div class="challenge-tabs" id="challenge-tabs">
+        <button class="challenge-tab active" data-level="easy">
+          <span class="tab-dot easy-dot"></span>
+          Easy
+          <span class="tab-count">25</span>
+        </button>
+        <button class="challenge-tab" data-level="medium">
+          <span class="tab-dot medium-dot"></span>
+          Medium
+          <span class="tab-count">25</span>
+        </button>
+        <button class="challenge-tab" data-level="hard">
+          <span class="tab-dot hard-dot"></span>
+          Hard
+          <span class="tab-count">25</span>
+        </button>
+        <button class="challenge-tab" data-level="extreme">
+          <span class="tab-dot extreme-dot"></span>
+          Extreme
+          <span class="tab-count">25</span>
+        </button>
+      </div>
+
+      <!-- Challenge Grid -->
+      <div class="challenge-grid" id="challenge-grid">
+        <!-- Populated by JS -->
+      </div>
+
+      <div class="challenges-cta">
+        <a href="editor.html" class="btn btn-primary">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+          </svg>
+          Start Solving in Editor
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="contact-section" id="contact">
+    <div class="section-container">
+      <div class="section-header-text">
+        <span class="section-tag">Contact</span>
+        <h2 class="section-title">Send Us a Message</h2>
+        <p class="section-desc">Got feedback, found a bug, or just want to say hi? Drop us a message below.</p>
+      </div>
+
+      <div class="contact-card">
+        <form id="contact-form" class="contact-form" autocomplete="off">
+          <div class="form-group">
+            <label for="contact-email">Your Email</label>
+            <input type="email" id="contact-email" placeholder="you@example.com" required />
+          </div>
+          <div class="form-group">
+            <label for="contact-message">
+              Message
+              <span class="word-counter" id="word-counter">0 / 30-250 words</span>
+            </label>
+            <textarea id="contact-message" rows="4" placeholder="Write your message here..." required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary contact-submit" id="contact-submit">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="22" y1="2" x2="11" y2="13"></line>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+            Send Message
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="cta-glow"></div>
+    <div class="section-container">
+      <h2 class="cta-title">Ready to Start Coding?</h2>
+      <p class="cta-desc">No sign-up. No downloads. Just open the editor and write code.</p>
+      <a href="editor.html" class="btn btn-primary btn-xl">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+          <polygon points="5 3 19 12 5 21 5 3"></polygon>
+        </svg>
+        Launch CodeForge Editor
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="home-footer">
+    <div class="footer-inner">
+      <div class="footer-left">
+        <img src="/public/favicon.svg" alt="CodeForge" width="20" height="20" style="border-radius:4px" />
+        <span class="footer-brand">CodeForge</span>
+        <span class="footer-copy">© 2026 — Free & Open Source</span>
+      </div>
+      <div class="footer-right" style="display:flex;gap:16px;align-items:center;">
+        <a href="privacy.html" class="footer-link">Privacy Policy</a>
+        <a href="terms.html" class="footer-link">Terms & Conditions</a>
+        <span class="footer-tech" style="margin-left:8px;border-left:1px solid var(--border);padding-left:16px;">Built
+          with Monaco Editor + Judge0 API</span>
+      </div>
+    </div>
+  </footer>
+
+  <div id="toast-container" class="toast-container"></div>
+  <script type="module" src="/src/home.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CodeForge — Online Code Editor</title>
+  <meta name="description"
+    content="A powerful online code editor supporting 20+ programming languages. Write, run, and share code instantly in your browser." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="/public/favicon.svg">
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+
+<body>
+  <!-- Skip to Content (Accessibility) -->
+  <a href="#editor-container" class="skip-to-content" id="skip-to-content">Skip to Editor</a>
+  <!-- Top Navigation Bar -->
+  <nav id="navbar" class="navbar">
+    <div class="navbar-left">
+      <!-- Home Button -->
+      <a href="/" class="home-btn" id="home-btn" title="Back to Home" aria-label="Go to homepage">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+          <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+      </a>
+
+      <div class="logo" id="logo">
+        <img src="/public/favicon.svg" alt="CodeForge" class="logo-icon-img" width="22" height="22" />
+        <span class="logo-text">CodeForge</span>
+      </div>
+
+      <!-- Language Selector -->
+      <div class="language-selector" id="language-selector">
+        <button class="language-btn" id="language-btn" aria-label="Select programming language">
+          <img class="lang-icon-img" id="lang-icon-img"
+            src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg"
+            alt="JavaScript" width="18" height="18" />
+          <span class="lang-name" id="lang-name">JavaScript</span>
+          <svg class="chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2.5">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </button>
+        <div class="language-dropdown" id="language-dropdown"></div>
+      </div>
+    </div>
+
+    <div class="navbar-center">
+      <!-- Run Button -->
+      <button class="run-btn" id="run-btn" aria-label="Run code">
+        <svg class="play-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+          <polygon points="5 3 19 12 5 21 5 3"></polygon>
+        </svg>
+        <span>Run</span>
+        <kbd>Ctrl+↵</kbd>
+      </button>
+
+      <!-- Preview Button (HTML/CSS only) -->
+      <button class="preview-btn" id="preview-btn" aria-label="Preview in new tab" title="Open HTML preview in new tab"
+        style="display:none;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+          <polyline points="15 3 21 3 21 9"></polyline>
+          <line x1="10" y1="14" x2="21" y2="3"></line>
+        </svg>
+        <span>Preview</span>
+      </button>
+      <!-- Debug Button -->
+      <button class="nav-icon-btn" id="debug-btn" aria-label="Step-by-step debugger" title="Debug (JS only)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 22c1.1 0 2-.9 2-2h-4a2 2 0 0 0 2 2z"></path>
+          <path d="M9 1v1a3 3 0 0 0-3 3v3h12V5a3 3 0 0 0-3-3V1"></path>
+          <line x1="8" y1="12" x2="8" y2="16"></line>
+          <line x1="16" y1="12" x2="16" y2="16"></line>
+          <line x1="3" y1="10" x2="6" y2="10"></line>
+          <line x1="18" y1="10" x2="21" y2="10"></line>
+          <line x1="3" y1="14" x2="6" y2="14"></line>
+          <line x1="18" y1="14" x2="21" y2="14"></line>
+        </svg>
+      </button>
+    </div>
+
+    <div class="navbar-right">
+      <!-- Terminal Toggle Button -->
+      <button class="nav-icon-btn" id="terminal-toggle-btn" aria-label="Toggle Terminal" title="Toggle Terminal">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="4 17 10 11 4 5"></polyline>
+          <line x1="12" y1="19" x2="20" y2="19"></line>
+        </svg>
+      </button>
+
+      <!-- Files Button -->
+      <button class="nav-icon-btn" id="files-btn" aria-label="My Files" title="My Files">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+        </svg>
+      </button>
+
+      <!-- Challenges Button -->
+      <button class="nav-icon-btn" id="challenges-btn" aria-label="Coding Challenges" title="Coding Challenges">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon
+            points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
+          </polygon>
+        </svg>
+      </button>
+
+      <!-- Explain Button -->
+      <button class="nav-icon-btn" id="explain-btn" aria-label="Explain Code" title="Explain Code">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+          <line x1="12" y1="17" x2="12.01" y2="17"></line>
+        </svg>
+      </button>
+
+      <!-- Snippets Button -->
+      <button class="nav-icon-btn" id="snippets-btn" aria-label="Snippet Library" title="Snippet Library">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+          <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+        </svg>
+      </button>
+
+      <!-- Collaboration Button -->
+      <button class="nav-icon-btn" id="collab-btn" aria-label="Toggle collaboration" title="Real-time Collaboration">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+          <circle cx="9" cy="7" r="4"></circle>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+        </svg>
+      </button>
+
+      <!-- Share Menu -->
+      <div class="share-menu" id="share-menu">
+        <button class="nav-icon-btn" id="share-btn" aria-label="Share or save code" title="Save & Share">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="18" cy="5" r="3"></circle>
+            <circle cx="6" cy="12" r="3"></circle>
+            <circle cx="18" cy="19" r="3"></circle>
+            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+          </svg>
+        </button>
+        <div class="share-dropdown" id="share-dropdown">
+          <button class="share-option" id="share-download">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            <span>Download</span>
+          </button>
+          <button class="share-option" id="share-copy">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <span>Copy Code</span>
+          </button>
+          <button class="share-option" id="share-link">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+              <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+            </svg>
+            <span>Share Link</span>
+          </button>
+        </div>
+      </div>
+      <!-- Accessibility Settings -->
+      <button class="nav-icon-btn" id="a11y-btn" aria-label="Accessibility Settings" title="Accessibility Settings">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <circle cx="12" cy="8" r="2"></circle>
+          <path d="M8 14l4 2 4-2"></path>
+          <path d="M12 16v4"></path>
+        </svg>
+      </button>
+
+      <!-- Theme Toggle -->
+      <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark/light theme" title="Toggle Theme">
+        <svg class="sun-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <svg class="moon-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Collaboration Bar -->
+  <div class="collab-bar" id="collab-bar" style="display:none;">
+    <div class="collab-info">
+      <span class="collab-status-dot"></span>
+      <span>Live Collaboration</span>
+      <span class="collab-room" id="collab-room-id"></span>
+    </div>
+    <div class="collab-users" id="collab-users"></div>
+    <div class="collab-actions">
+      <button class="collab-copy-link" id="collab-copy-link" title="Copy room link">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+          <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+        </svg>
+        Copy Link
+      </button>
+      <button class="collab-leave" id="collab-leave" title="Leave session">Leave</button>
+    </div>
+  </div>
+
+  <!-- Main Editor Area -->
+  <main class="main-container" id="main-container">
+    <div class="editor-section" id="editor-section">
+      <div class="section-header">
+        <div class="section-title">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="16 18 22 12 16 6"></polyline>
+            <polyline points="8 6 2 12 8 18"></polyline>
+          </svg>
+          <span>Editor</span>
+        </div>
+        <div class="editor-info" id="editor-info">
+          <span class="file-name" id="file-name">main.js</span>
+          <span class="storage-indicator" id="storage-indicator" title="Storage used">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path
+                d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
+              </path>
+            </svg>
+            <span id="storage-text">0 KB</span>
+          </span>
+        </div>
+      </div>
+      <div class="editor-container" id="editor-container"></div>
+      <!-- Drag and Drop Overlay -->
+      <div class="drop-overlay" id="drop-overlay">
+        <div class="drop-overlay-content">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="17 8 12 3 7 8"></polyline>
+            <line x1="12" y1="3" x2="12" y2="15"></line>
+          </svg>
+          <p>Drop file to open in editor</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="gutter" id="gutter">
+      <div class="gutter-line"></div>
+    </div>
+
+    <div class="output-section" id="output-section">
+      <div class="section-header">
+        <div class="section-title">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="4 17 10 11 4 5"></polyline>
+            <line x1="12" y1="19" x2="20" y2="19"></line>
+          </svg>
+          <span>Output</span>
+        </div>
+        <div class="output-actions">
+          <button class="clear-btn" id="clear-btn" title="Clear console">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+            Clear
+          </button>
+          <button class="clear-btn" id="close-terminal-btn" title="Close Terminal" style="margin-left: 10px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+            Close
+          </button>
+        </div>
+      </div>
+      <div class="console-container" id="console-panel">
+        <div class="console-output" id="console-output">
+          <div class="console-welcome">
+            <img src="/public/favicon.svg" alt="CodeForge" width="28" height="28" class="welcome-icon-img" />
+            <h3>Welcome to CodeForge</h3>
+            <p>Select a language, write your code, and press <kbd>Ctrl + Enter</kbd> or click <strong>Run</strong> to
+              execute.</p>
+            <p class="welcome-langs">Supports 20+ languages including JavaScript, Python, C/C++, Java, Go, Rust, and
+              more.</p>
+          </div>
+        </div>
+        <div class="iframe-container" id="iframe-container" style="display:none;"></div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Files Panel (Slide-in Sidebar) -->
+  <div class="panel-overlay" id="files-overlay" style="display:none;"></div>
+  <aside class="side-panel" id="files-panel">
+    <div class="panel-header">
+      <h3>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+        </svg>
+        My Files
+      </h3>
+      <button class="panel-close" id="files-close">&times;</button>
+    </div>
+    <div class="panel-storage">
+      <div class="storage-bar">
+        <div class="storage-fill" id="storage-fill"></div>
+      </div>
+      <span class="storage-label" id="storage-label">0 KB / 15 MB</span>
+    </div>
+    <div class="panel-actions" style="display:flex;gap:8px;">
+      <button class="panel-action-btn" id="save-current-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+          <polyline points="17 21 17 13 7 13 7 21"></polyline>
+          <polyline points="7 3 7 8 15 8"></polyline>
+        </svg>
+        Save
+      </button>
+      <button class="panel-action-btn upload-btn" id="upload-file-btn"
+        style="background:var(--bg-tertiary);color:var(--text-primary);border:1px solid var(--border-color);box-shadow:none;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="17 8 12 3 7 8"></polyline>
+          <line x1="12" y1="3" x2="12" y2="15"></line>
+        </svg>
+        Upload
+      </button>
+    </div>
+    <div class="panel-file-list" id="files-list">
+      <div class="panel-empty">No saved files yet.<br>Click "Save Current" to save your work.</div>
+    </div>
+
+    <!-- History Section inside Files Panel -->
+    <div class="panel-divider"></div>
+    <div class="panel-section-title">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"></circle>
+        <polyline points="12 6 12 12 16 14"></polyline>
+      </svg>
+      Recent History
+    </div>
+    <div class="panel-history-list" id="history-list">
+      <div class="panel-empty">No history yet.</div>
+    </div>
+  </aside>
+
+  <!-- Collaboration Modal -->
+  <div class="modal-overlay" id="collab-modal" style="display:none;">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>Real-time Collaboration</h3>
+        <button class="modal-close" id="collab-modal-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>Collaborate in real-time with others using peer-to-peer connections. No server needed!</p>
+        <div class="modal-options">
+          <button class="modal-option-btn primary" id="collab-create">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            Create New Room
+          </button>
+          <div class="modal-divider"><span>or</span></div>
+          <div class="modal-input-group">
+            <input type="text" id="collab-room-input" placeholder="Enter room ID..." class="modal-input" />
+            <button class="modal-option-btn secondary" id="collab-join">Join Room</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Debugger Controls Bar -->
+  <div class="debugger-bar" id="debugger-bar" style="display:none;">
+    <div class="debug-controls">
+      <button class="debug-control-btn" id="debug-step-btn" title="Step Forward">⏭ Step</button>
+      <button class="debug-control-btn" id="debug-back-btn" title="Step Back">⏮ Back</button>
+      <button class="debug-control-btn debug-stop" id="debug-stop-btn" title="Stop">⏹ Stop</button>
+      <span class="debug-info" id="debug-info">Line 0 / 0</span>
+    </div>
+    <div class="debug-variables" id="debug-variables"></div>
+  </div>
+
+  <!-- Challenges Panel -->
+  <div class="modal-overlay" id="challenges-modal" style="display:none;">
+    <div class="modal" style="max-width:600px;max-height:80vh;overflow-y:auto;">
+      <div class="modal-header">
+        <h3>⭐ Coding Challenges</h3>
+        <button class="modal-close" id="challenges-close">&times;</button>
+      </div>
+      <div class="modal-body" id="challenges-body">
+        <p>Practice with built-in coding problems. Select a challenge to begin!</p>
+        <div id="challenges-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Snippets Modal -->
+  <div class="modal-overlay" id="snippets-modal" style="display:none;">
+    <div class="modal" style="max-width:600px;max-height:80vh;overflow-y:auto;">
+      <div class="modal-header">
+        <h3>📋 Snippet Library</h3>
+        <button class="modal-close" id="snippets-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div style="display:flex;gap:8px;margin-bottom:16px;">
+          <input type="text" id="snippet-search" class="modal-input" placeholder="Search snippets..." />
+          <button class="modal-option-btn primary" id="save-snippet-btn"
+            style="width:auto;padding:8px 16px;font-size:13px;">Save Current</button>
+        </div>
+        <div id="snippets-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Explain Panel -->
+  <div class="modal-overlay" id="explain-modal" style="display:none;">
+    <div class="modal" style="max-width:550px;max-height:80vh;overflow-y:auto;">
+      <div class="modal-header">
+        <h3>🧠 Code Explanation</h3>
+        <button class="modal-close" id="explain-close">&times;</button>
+      </div>
+      <div class="modal-body" id="explain-body">
+        <p>Analyzing your code...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Accessibility Settings Modal -->
+  <div class="modal-overlay" id="a11y-modal" style="display:none;">
+    <div class="modal" style="max-width:420px;">
+      <div class="modal-header">
+        <h3>♿ Accessibility Settings</h3>
+        <button class="modal-close" id="a11y-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="a11y-setting">
+          <label for="a11y-font-size">Font Size: <span id="a11y-font-size-val">15</span>px</label>
+          <input type="range" id="a11y-font-size" min="10" max="28" value="15" class="a11y-slider" />
+        </div>
+        <div class="a11y-setting">
+          <label for="a11y-line-spacing">Line Spacing: <span id="a11y-line-spacing-val">1.5</span></label>
+          <input type="range" id="a11y-line-spacing" min="1" max="3" step="0.1" value="1.5" class="a11y-slider" />
+        </div>
+        <div class="a11y-setting">
+          <label for="a11y-font">Font Family</label>
+          <select id="a11y-font" class="a11y-select">
+            <option value="default">JetBrains Mono (Default)</option>
+            <option value="opendyslexic">OpenDyslexic</option>
+            <option value="comic-sans">Comic Sans MS</option>
+          </select>
+        </div>
+        <div class="a11y-setting">
+          <label><input type="checkbox" id="a11y-high-contrast" /> High Contrast Mode</label>
+        </div>
+        <div class="a11y-setting">
+          <label><input type="checkbox" id="a11y-reduced-motion" /> Reduce Animations</label>
+        </div>
+        <button class="modal-option-btn secondary" id="a11y-reset" style="margin-top:12px;">Reset to Defaults</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hidden file input -->
+  <input type="file" id="file-upload-input" style="display:none;"
+    accept=".js,.ts,.py,.c,.cpp,.java,.cs,.go,.rs,.rb,.php,.swift,.kt,.dart,.lua,.pl,.r,.sh,.html,.htm,.sql,.jsx,.tsx,.mjs,.cjs,.h,.hpp,.cc,.cxx" />
+
+  <!-- Toast Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <script type="module" src="/src/main.js"></script>
+
+</body>
+
+</html>
